@@ -47,9 +47,7 @@ weather-town/
 
 ## Online Testing
 
-```
 Access the deployed version: https://weather-town-mocha.vercel.app/
-```
 
 ## Notes
 
