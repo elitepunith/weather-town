@@ -1,23 +1,28 @@
 # Weather Town
 
-A weather app that shows current conditions and a 5-day forecast for any city. Built with plain HTML, CSS, and JavaScript. Uses a Vercel serverless function to keep the API key off the client.
+A weather dashboard that shows real-time conditions and a 5-day forecast for any city. Built with plain HTML, CSS, and JavaScript. Uses a Vercel serverless function to keep the API key off the client.
 
-## What it does
+## Features
 
-- Shows temperature, humidity, wind speed, visibility, and pressure for a searched city
-- 5-day forecast pulled from OpenWeatherMap
-- "Use my location" button that grabs coordinates from your browser
-- Glassmorphism card layout, dark theme, works on mobile
+- Current temperature, feels-like, high/low for the day
+- Humidity, wind speed + direction, visibility, pressure, dew point, cloud cover
+- Sunrise and sunset times (local to the searched city)
+- Local time display for the searched city
+- 5-day forecast with high/low temperatures
+- °C / °F toggle
+- "Use my location" button via browser geolocation
+- Full desktop dashboard layout, responsive down to mobile
+- API key never exposed to the browser
 
 ## How it works
 
-The frontend sends requests to `/api/weather`, which is a Vercel serverless function. That function reads the API key from an environment variable, calls OpenWeatherMap, and returns the data. The key never touches the browser.
+The frontend sends requests to `/api/weather`, which is a Vercel serverless function. That function reads the API key from an environment variable (`WEATHER_API_KEY`), calls OpenWeatherMap, and returns the data. The key never touches the browser.
 
 ## Setup
 
 1. Clone this repo
 2. Sign up at [openweathermap.org](https://openweathermap.org/api) and grab a free API key
-3. Install the Vercel CLI if you don't have it: `npm i -g vercel`
+3. Install the Vercel CLI: `npm i -g vercel`
 4. Link your project: `vercel link`
 5. Add your key as an environment variable:
    ```
@@ -43,6 +48,8 @@ weather-town/
 ## Notes
 
 - The API response is cached at the edge for 5 minutes to avoid hammering OpenWeatherMap on the free tier
-- Wind speed comes from the API in m/s and gets converted to km/h on the client
-- Forecast picks the 12:00 entry for each day so you get a midday reading
-- If you're testing locally without Vercel, the `/api/weather` route won't work since it needs the serverless runtime
+- Wind speed is converted from m/s to km/h on the client
+- Forecast skips today and shows the next 5 days, preferring midday readings
+- Dew point is approximated from temperature and humidity (Magnus formula shortcut)
+- Local city time is derived from the UTC offset returned by the API
+- `vercel.json` explicitly routes `/api/*` before the catch-all SPA rewrite so API calls are never redirected to `index.html`
