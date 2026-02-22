@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Town 🌤️</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Background Animation -->
+        <div class="bg-animation">
+            <div class="cloud cloud-1">☁️</div>
+            <div class="cloud cloud-2">⛅</div>
+            <div class="cloud cloud-3">☁️</div>
+        </div>
+
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-cloud-sun"></i>
+                <h1>Weather <span>Town</span></h1>
+            </div>
+            <p class="tagline">Your friendly neighborhood weather companion</p>
+        </header>
+
+        <!-- Search Section -->
+        <div class="search-container">
+            <div class="search-box">
+                <i class="fas fa-map-marker-alt search-icon"></i>
+                <input
+                    type="text"
+                    id="cityInput"
+                    placeholder="Search any city..."
+                    autocomplete="off"
+                />
+                <button id="searchBtn" class="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <button id="locationBtn" class="location-btn">
+                <i class="fas fa-location-crosshairs"></i> Use My Location
+            </button>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div class="loader hidden" id="loader">
+            <div class="spinner"></div>
+            <p>Fetching weather data...</p>
+        </div>
+
+        <!-- Error Message -->
+        <div class="error-message hidden" id="errorMessage">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p id="errorText">City not found. Please try again.</p>
+        </div>
+
+        <!-- Main Weather Card -->
+        <div class="weather-card hidden" id="weatherCard">
+            <div class="weather-main">
+                <div class="weather-left">
+                    <h2 class="city-name" id="cityName">--</h2>
+                    <p class="date-time" id="dateTime">--</p>
+                    <div class="temp-container">
+                        <span class="temperature" id="temperature">--</span>
+                        <span class="temp-unit">°C</span>
+                    </div>
+                    <p class="description" id="description">--</p>
+                </div>
+                <div class="weather-right">
+                    <img id="weatherIcon" class="weather-icon" src="" alt="Weather Icon">
+                    <p class="feels-like">Feels like <span id="feelsLike">--</span>°C</p>
+                </div>
+            </div>
+
+            <!-- Weather Details Grid -->
+            <div class="weather-details">
+                <div class="detail-card">
+                    <i class="fas fa-droplet"></i>
+                    <div>
+                        <p class="detail-value" id="humidity">--%</p>
+                        <p class="detail-label">Humidity</p>
+                    </div>
+                </div>
+                <div class="detail-card">
+                    <i class="fas fa-wind"></i>
+                    <div>
+                        <p class="detail-value" id="windSpeed">-- km/h</p>
+                        <p class="detail-label">Wind Speed</p>
+                    </div>
+                </div>
+                <div class="detail-card">
+                    <i class="fas fa-eye"></i>
+                    <div>
+                        <p class="detail-value" id="visibility">-- km</p>
+                        <p class="detail-label">Visibility</p>
+                    </div>
+                </div>
+                <div class="detail-card">
+                    <i class="fas fa-gauge-high"></i>
+                    <div>
+                        <p class="detail-value" id="pressure">-- hPa</p>
+                        <p class="detail-label">Pressure</p>
+                    </div>
+                </div>
+                <div class="detail-card">
+                    <i class="fas fa-sunrise"></i>
+                    <div>
+                        <p class="detail-value" id="sunrise">--:--</p>
+                        <p class="detail-label">Sunrise</p>
+                    </div>
+                </div>
+                <div class="detail-card">
+                    <i class="fas fa-sunset"></i>
+                    <div>
+                        <p class="detail-value" id="sunset">--:--</p>
+                        <p class="detail-label">Sunset</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5-Day Forecast -->
+        <div class="forecast-section hidden" id="forecastSection">
+            <h3 class="section-title"><i class="fas fa-calendar-week"></i> 5-Day Forecast</h3>
+            <div class="forecast-container" id="forecastContainer">
+                <!-- Forecast cards will be injected here -->
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Made with <span class="heart">❤️</span> by <strong>Weather Town</strong></p>
+            <p class="footer-note">Powered by OpenWeatherMap API</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
