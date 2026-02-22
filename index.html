@@ -3,39 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Check real-time weather conditions and forecasts.">
     <title>Weather Town</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="app-container">
+    <main class="app-container">
         <header class="header">
-            <i class="fas fa-cloud-sun logo-icon"></i>
+            <i class="fas fa-cloud-sun logo-icon" aria-hidden="true"></i>
             <h1>Weather Town</h1>
         </header>
 
-        <div class="search-section">
+        <section class="search-section">
             <div class="search-box">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" id="cityInput" placeholder="Search city..." autocomplete="off">
-                <button id="searchBtn">Search</button>
+                <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                <input 
+                    type="text" 
+                    id="cityInput" 
+                    placeholder="Search for a city..." 
+                    aria-label="Search for a city"
+                    autocomplete="off"
+                >
+                <button id="searchBtn" aria-label="Search">Search</button>
             </div>
-            <button id="locationBtn" class="location-btn" title="Use My Location">
-                <i class="fas fa-location-crosshairs"></i>
+            <button id="locationBtn" class="location-btn" aria-label="Use my current location" title="Use My Location">
+                <i class="fas fa-location-crosshairs" aria-hidden="true"></i>
             </button>
-        </div>
+        </section>
 
-        <div id="loader" class="loader hidden">
+        <div id="loader" class="loader hidden" aria-live="polite">
             <div class="spinner"></div>
-            <p>Loading weather data...</p>
+            <p>Fetching forecast...</p>
         </div>
 
-        <div id="errorMessage" class="error-message hidden">
-            <p id="errorText">City not found.</p>
+        <div id="errorMessage" class="error-message hidden" role="alert">
+            <p id="errorText">City not found. Please try again.</p>
         </div>
 
-        <main id="weatherCard" class="weather-card hidden">
+        <article id="weatherCard" class="weather-card hidden">
             <div class="current-weather">
                 <div class="weather-info">
                     <h2 id="cityName">--</h2>
@@ -47,48 +54,48 @@
                     <p id="description" class="weather-desc">--</p>
                 </div>
                 <div class="weather-visual">
-                    <img id="weatherIcon" src="" alt="Weather condition">
+                    <img id="weatherIcon" src="" alt="" aria-hidden="true">
                     <p>Feels like <span id="feelsLike">--</span>°C</p>
                 </div>
             </div>
 
             <div class="weather-metrics">
                 <div class="metric">
-                    <i class="fas fa-droplet"></i>
+                    <i class="fas fa-droplet" aria-hidden="true"></i>
                     <div>
                         <span id="humidity" class="metric-val">--%</span>
                         <span class="metric-label">Humidity</span>
                     </div>
                 </div>
                 <div class="metric">
-                    <i class="fas fa-wind"></i>
+                    <i class="fas fa-wind" aria-hidden="true"></i>
                     <div>
                         <span id="windSpeed" class="metric-val">-- km/h</span>
                         <span class="metric-label">Wind</span>
                     </div>
                 </div>
                 <div class="metric">
-                    <i class="fas fa-eye"></i>
+                    <i class="fas fa-eye" aria-hidden="true"></i>
                     <div>
                         <span id="visibility" class="metric-val">-- km</span>
                         <span class="metric-label">Visibility</span>
                     </div>
                 </div>
                 <div class="metric">
-                    <i class="fas fa-gauge-high"></i>
+                    <i class="fas fa-gauge-high" aria-hidden="true"></i>
                     <div>
                         <span id="pressure" class="metric-val">-- hPa</span>
                         <span class="metric-label">Pressure</span>
                     </div>
                 </div>
             </div>
-        </main>
+        </article>
 
         <section id="forecastSection" class="forecast-section hidden">
             <h3>5-Day Forecast</h3>
             <div id="forecastContainer" class="forecast-grid"></div>
         </section>
-    </div>
+    </main>
 
     <script src="script.js"></script>
 </body>
