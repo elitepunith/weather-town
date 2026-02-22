@@ -29,10 +29,17 @@ body {
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;          /* vertically centered on homepage */
     color: var(--text-main);
     background-color: #0a0f1e;
     padding: 40px 20px 60px;
+    transition: align-items 0s;
+}
+
+/* When results are showing, push content to the top */
+body.results-active {
+    align-items: flex-start;
+    padding-top: 40px;
 }
 
 /* ── Animated background ── */
@@ -132,9 +139,10 @@ body {
     width: 100%;
 }
 
-/* When results are showing, constrain search width */
+/* When results are showing, constrain search width and align left */
 .page-wrapper.has-results .search-shell {
-    max-width: 500px;
+    max-width: 480px;
+    align-self: flex-start;
 }
 
 .input-wrapper {

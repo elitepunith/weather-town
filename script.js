@@ -54,8 +54,9 @@ async function fetchWeather(queryString) {
         renderForecast(data.forecast);
         toggleLoading(false);
 
-        // Expand page to wide horizontal layout
+        // Expand page to wide horizontal layout + shift body alignment
         els.pageWrapper.classList.add("has-results");
+        document.body.classList.add("results-active");
 
     } catch(err) {
         showError(err.message || "Unable to find weather for that location.");
@@ -131,6 +132,7 @@ function showError(msg) {
     toggleLoading(false);
     els.weatherCard.classList.add("hidden");
     els.pageWrapper.classList.remove("has-results");
+    document.body.classList.remove("results-active");
     els.errorText.textContent = msg;
     els.errorMsg.classList.remove("hidden");
 }
