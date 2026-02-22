@@ -45,6 +45,12 @@ weather-town/
 └── README.md
 ```
 
+## Online Testing
+
+```
+Access the deployed version: https://weather-town-mocha.vercel.app/
+```
+
 ## Notes
 
 - The API response is cached at the edge for 5 minutes to avoid hammering OpenWeatherMap on the free tier
