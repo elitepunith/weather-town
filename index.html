@@ -5,93 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Town</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="glow-bg"></div>
-    <main class="app-container">
-        <header class="header">
-            <i class="fas fa-cloud-moon logo-icon"></i>
-            <h1>WEATHER_TOWN</h1>
+    <div class="mesh-bg"></div>
+    <main class="app-widget">
+        <header class="search-bar">
+            <button id="locationBtn" class="icon-btn" aria-label="Current Location">
+                <i class="fas fa-location-arrow"></i>
+            </button>
+            <div class="input-wrapper">
+                <i class="fas fa-search"></i>
+                <input type="text" id="cityInput" placeholder="Search city..." autocomplete="off">
+            </div>
+            <button id="searchBtn" class="search-trigger">Search</button>
         </header>
 
-        <section class="search-section">
-            <div class="search-box">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" id="cityInput" placeholder="Initialize location scan..." autocomplete="off">
-                <button id="searchBtn">SCAN</button>
-            </div>
-            <button id="locationBtn" class="location-btn" title="Use GPS">
-                <i class="fas fa-crosshairs"></i>
-            </button>
-        </section>
-
-        <div id="loader" class="loader hidden">
+        <div id="loader" class="status-msg hidden">
             <div class="spinner"></div>
-            <p>Syncing data...</p>
+            <p>Loading...</p>
         </div>
 
-        <div id="errorMessage" class="error-message hidden">
-            <i class="fas fa-triangle-exclamation"></i>
-            <p id="errorText">Location not found.</p>
+        <div id="errorMessage" class="status-msg error hidden">
+            <p id="errorText">City not found.</p>
         </div>
 
-        <article id="weatherCard" class="weather-card hidden">
-            <div class="current-weather">
-                <div class="weather-info">
-                    <h2 id="cityName">--</h2>
-                    <p id="dateTime" class="date-text">--</p>
-                    <div class="temp-wrapper">
-                        <span id="temperature" class="temp-main">--</span>
-                        <span class="temp-unit">°C</span>
-                    </div>
-                    <p id="description" class="weather-desc">--</p>
+        <article id="weatherCard" class="weather-content hidden">
+            <div class="main-temp-section">
+                <h2 id="cityName">--</h2>
+                <p id="description" class="condition">--</p>
+                <div class="temp-display">
+                    <span id="temperature">--</span>°
                 </div>
-                <div class="weather-visual">
-                    <div class="icon-ring">
-                        <img id="weatherIcon" src="" alt="">
-                    </div>
-                    <p class="feels-like">Feels like <span id="feelsLike">--</span>°C</p>
+                <p class="high-low">Feels like <span id="feelsLike">--</span>°</p>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-box">
+                    <i class="fas fa-droplet"></i>
+                    <span id="humidity" class="val">--%</span>
+                    <span class="label">Humidity</span>
+                </div>
+                <div class="metric-box">
+                    <i class="fas fa-wind"></i>
+                    <span id="windSpeed" class="val">-- km/h</span>
+                    <span class="label">Wind</span>
+                </div>
+                <div class="metric-box">
+                    <i class="fas fa-eye"></i>
+                    <span id="visibility" class="val">-- km</span>
+                    <span class="label">Visibility</span>
+                </div>
+                <div class="metric-box">
+                    <i class="fas fa-gauge"></i>
+                    <span id="pressure" class="val">-- hPa</span>
+                    <span class="label">Pressure</span>
                 </div>
             </div>
 
-            <div class="weather-metrics">
-                <div class="metric">
-                    <i class="fas fa-droplet"></i>
-                    <div>
-                        <span id="humidity" class="metric-val">--%</span>
-                        <span class="metric-label">Humidity</span>
+            <div id="forecastSection" class="forecast-scroller">
+                <div id="forecastContainer" class="forecast-track">
                     </div>
-                </div>
-                <div class="metric">
-                    <i class="fas fa-wind"></i>
-                    <div>
-                        <span id="windSpeed" class="metric-val">-- km/h</span>
-                        <span class="metric-label">Wind</span>
-                    </div>
-                </div>
-                <div class="metric">
-                    <i class="fas fa-eye"></i>
-                    <div>
-                        <span id="visibility" class="metric-val">-- km</span>
-                        <span class="metric-label">Visibility</span>
-                    </div>
-                </div>
-                <div class="metric">
-                    <i class="fas fa-gauge-high"></i>
-                    <div>
-                        <span id="pressure" class="metric-val">-- hPa</span>
-                        <span class="metric-label">Pressure</span>
-                    </div>
-                </div>
             </div>
         </article>
-
-        <section id="forecastSection" class="forecast-section hidden">
-            <h3>5-DAY PROJECTION</h3>
-            <div id="forecastContainer" class="forecast-grid"></div>
-        </section>
     </main>
 
     <script src="script.js"></script>

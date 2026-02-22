@@ -1,32 +1,18 @@
-// OpenWeatherMap setup
-// Note: It's bad practice to leave API keys in frontend code for production, 
-// but it's fine for learning/local testing.
-const API_KEY = "9d2f22ff4f4e6966acd4895f15104bed"; 
-const BASE_URL = "https://api.openweathermap.org/data/2.5";
-
-// Cache DOM elements
 const els = {
     input: document.getElementById('cityInput'),
     searchBtn: document.getElementById('searchBtn'),
     locationBtn: document.getElementById('locationBtn'),
     weatherCard: document.getElementById('weatherCard'),
-    forecastSection: document.getElementById('forecastSection'),
     loader: document.getElementById('loader'),
     errorMsg: document.getElementById('errorMessage'),
     errorText: document.getElementById('errorText')
 };
 
-// Event bindings
 els.searchBtn.addEventListener('click', handleSearch);
-els.input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') handleSearch();
-});
+els.input.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleSearch(); });
 
 els.locationBtn.addEventListener('click', () => {
-    if (!navigator.geolocation) {
-        showError("Your browser doesn't support geolocation.");
-        return;
-    }
+    if (!navigator.geolocation) return showError("Geolocation not supported.");
     
     navigator.geolocation.getCurrentPosition(
         pos => fetchWeather(`lat=${pos.coords.latitude}&lon=${pos.coords.longitude}`),
@@ -36,43 +22,34 @@ els.locationBtn.addEventListener('click', () => {
 
 function handleSearch() {
     const city = els.input.value.trim();
-    if (city) fetchWeather(`q=${encodeURIComponent(city)}`);
+    if (city) fetchWeather(`city=${encodeURIComponent(city)}`);
 }
 
-// Core fetch logic
-async function fetchWeather(queryParam) {
+async function fetchWeather(queryString) {
     toggleLoading(true);
     
     try {
-        const [weatherRes, forecastRes] = await Promise.all([
-            fetch(`${BASE_URL}/weather?${queryParam}&appid=${API_KEY}&units=metric`),
-            fetch(`${BASE_URL}/forecast?${queryParam}&appid=${API_KEY}&units=metric`)
-        ]);
-
-        if (!weatherRes.ok) throw new Error("Location not found");
-
-        const weatherData = await weatherRes.json();
-        const forecastData = await forecastRes.json();
-
-        renderWeather(weatherData);
-        renderForecast(forecastData);
+        // We are now calling our secure Vercel backend function!
+        const response = await fetch(`/api/weather?${queryString}`);
+        
+        if (!response.ok) throw new Error("Location not found");
+        
+        const data = await response.json();
+        
+        renderWeather(data.weather);
+        renderForecast(data.forecast);
         toggleLoading(false);
         
     } catch (err) {
-        showError("We couldn't find weather data for that location.");
+        showError("Unable to find weather for that location.");
     }
 }
 
-// UI Updates
 function renderWeather(data) {
-    document.getElementById('cityName').textContent = `${data.name}, ${data.sys.country}`;
-    document.getElementById('dateTime').textContent = formatTime(data.dt, data.timezone);
+    document.getElementById('cityName').textContent = data.name;
     document.getElementById('temperature').textContent = Math.round(data.main.temp);
     document.getElementById('feelsLike').textContent = Math.round(data.main.feels_like);
     document.getElementById('description').textContent = data.weather[0].description;
-    
-    const icon = document.getElementById('weatherIcon');
-    icon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
     
     document.getElementById('humidity').textContent = `${data.main.humidity}%`;
     document.getElementById('windSpeed').textContent = `${(data.wind.speed * 3.6).toFixed(1)} km/h`;
@@ -86,7 +63,6 @@ function renderForecast(data) {
     const container = document.getElementById('forecastContainer');
     container.innerHTML = '';
 
-    // Filter list to get roughly one reading per day (around noon)
     const dailyData = data.list.filter(item => item.dt_txt.includes("12:00:00")).slice(0, 5);
 
     dailyData.forEach(item => {
@@ -95,24 +71,11 @@ function renderForecast(data) {
         
         container.innerHTML += `
             <div class="forecast-item">
-                <p>${dayName}</p>
+                <span class="day">${dayName}</span>
                 <img src="https://openweathermap.org/img/wn/${item.weather[0].icon}.png" alt="icon">
-                <p class="forecast-temp">${Math.round(item.main.temp)}°</p>
+                <span class="temp">${Math.round(item.main.temp)}°</span>
             </div>
         `;
-    });
-
-    els.forecastSection.classList.remove('hidden');
-}
-
-// Utils
-function formatTime(timestamp, timezoneOffset) {
-    const date = new Date((timestamp + timezoneOffset) * 1000);
-    return date.toLocaleDateString('en-US', { 
-        weekday: 'long', 
-        month: 'short', 
-        day: 'numeric',
-        timeZone: 'UTC' 
     });
 }
 
@@ -121,7 +84,6 @@ function toggleLoading(isLoading) {
     if (isLoading) {
         els.loader.classList.remove('hidden');
         els.weatherCard.classList.add('hidden');
-        els.forecastSection.classList.add('hidden');
     } else {
         els.loader.classList.add('hidden');
     }
@@ -130,7 +92,6 @@ function toggleLoading(isLoading) {
 function showError(msg) {
     toggleLoading(false);
     els.weatherCard.classList.add('hidden');
-    els.forecastSection.classList.add('hidden');
     els.errorText.textContent = msg;
     els.errorMsg.classList.remove('hidden');
 }
