@@ -8,14 +8,13 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌤</text></svg>">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="mesh-bg"></div>
 
     <div class="page-wrapper" id="pageWrapper">
 
-        <!-- Brand — above everything -->
+        <!-- ── Brand ── -->
         <div class="brand-header">
             <div class="brand-logo">⛅</div>
             <div class="brand-text">
@@ -24,33 +23,48 @@
             </div>
         </div>
 
-        <!-- Search bar -->
+        <!-- ── Search ── -->
         <div class="search-shell">
-            <button id="locationBtn" class="icon-btn" aria-label="Use current location">
-                <i class="fas fa-location-crosshairs"></i>
+
+            <!-- Location button -->
+            <button id="locationBtn" class="icon-btn" aria-label="Use current location" title="Use my location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+                </svg>
             </button>
+
+            <!-- Input with search icon -->
             <div class="input-wrapper">
-                <i class="fas fa-magnifying-glass"></i>
-                <input type="text" id="cityInput" placeholder="Search city..." autocomplete="off">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="M21 21l-4.35-4.35"/>
+                </svg>
+                <input type="text" id="cityInput" placeholder="Search city..." autocomplete="off" spellcheck="false">
             </div>
+
+            <!-- Search button -->
             <button id="searchBtn" class="search-trigger">Search</button>
+
         </div>
 
-        <!-- Loader -->
+        <!-- ── Loader ── -->
         <div id="loader" class="status-msg hidden">
             <div class="spinner"></div>
-            <p>Loading...</p>
+            <p>Loading weather…</p>
         </div>
 
-        <!-- Error -->
+        <!-- ── Error ── -->
         <div id="errorMessage" class="status-msg error hidden">
             <p id="errorText">City not found.</p>
         </div>
 
-        <!-- Results — horizontal grid -->
+        <!-- ══════════════════════════════
+             RESULTS — horizontal dashboard
+        ══════════════════════════════ -->
         <div id="weatherCard" class="results-grid hidden">
 
-            <!-- LEFT col: hero temp -->
+            <!-- LEFT: hero card -->
             <div class="result-hero glass-card">
                 <div class="hero-top">
                     <div class="hero-city">
@@ -66,52 +80,93 @@
 
                 <div class="hero-pills">
                     <span class="pill feels-pill">
-                        <i class="fas fa-temperature-half"></i>
+                        <!-- thermometer SVG -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="pill-icon orange">
+                            <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/>
+                        </svg>
                         Feels like <strong id="feelsLike">--</strong>°
                     </span>
                     <span class="pill hilo-pill">
-                        <i class="fas fa-arrow-up hi-icon"></i>
+                        <!-- up arrow -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="pill-icon hot">
+                            <path d="M12 19V5M5 12l7-7 7 7"/>
+                        </svg>
                         <span id="tempHigh">--</span>°
                         <span class="sep">·</span>
-                        <i class="fas fa-arrow-down lo-icon"></i>
+                        <!-- down arrow -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="pill-icon cold">
+                            <path d="M12 5v14M5 12l7 7 7-7"/>
+                        </svg>
                         <span id="tempLow">--</span>°
                     </span>
                 </div>
             </div>
 
-            <!-- RIGHT col: 2×2 metric cards -->
+            <!-- RIGHT: 2×2 metrics -->
             <div class="result-metrics">
+
                 <div class="metric-box glass-card">
-                    <div class="metric-icon-wrap blue"><i class="fas fa-droplet"></i></div>
+                    <div class="metric-icon-wrap blue">
+                        <!-- droplet -->
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14v-4H7l5-8v4h4l-5 8z"/>
+                        </svg>
+                    </div>
                     <span id="humidity" class="val">--%</span>
                     <span class="label">Humidity</span>
                 </div>
+
                 <div class="metric-box glass-card">
-                    <div class="metric-icon-wrap teal"><i class="fas fa-wind"></i></div>
+                    <div class="metric-icon-wrap teal">
+                        <!-- wind -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9.59 4.59A2 2 0 1 1 11 8H2"/>
+                            <path d="M12.59 19.41A2 2 0 1 0 14 16H2"/>
+                            <path d="M6.25 12H2"/>
+                            <path d="M19.59 4.59A2 2 0 1 1 21 8H2"/>
+                        </svg>
+                    </div>
                     <span id="windSpeed" class="val">--</span>
                     <span class="label">Wind</span>
                 </div>
+
                 <div class="metric-box glass-card">
-                    <div class="metric-icon-wrap purple"><i class="fas fa-eye"></i></div>
+                    <div class="metric-icon-wrap purple">
+                        <!-- eye -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </div>
                     <span id="visibility" class="val">--</span>
                     <span class="label">Visibility</span>
                 </div>
+
                 <div class="metric-box glass-card">
-                    <div class="metric-icon-wrap amber"><i class="fas fa-gauge-high"></i></div>
+                    <div class="metric-icon-wrap amber">
+                        <!-- gauge / pressure dial -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2a10 10 0 1 0 10 10"/>
+                            <path d="M12 6v6l4 2"/>
+                        </svg>
+                    </div>
                     <span id="pressure" class="val">--</span>
                     <span class="label">Pressure</span>
                 </div>
+
             </div>
 
-            <!-- FULL WIDTH bottom: forecast -->
+            <!-- BOTTOM: forecast full width -->
             <div class="result-forecast glass-card">
                 <p class="forecast-label">5-Day Forecast</p>
                 <div class="forecast-track" id="forecastContainer"></div>
             </div>
 
         </div>
+        <!-- /results-grid -->
 
     </div>
+    <!-- /page-wrapper -->
 
     <script src="script.js"></script>
 </body>
