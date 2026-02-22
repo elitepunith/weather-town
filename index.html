@@ -44,41 +44,79 @@
         </div>
 
         <article id="weatherCard" class="weather-content hidden">
-            <div class="main-temp-section">
-                <h2 id="cityName">--</h2>
-                <p id="description" class="condition">--</p>
-                <div class="temp-display">
-                    <span id="temperature">--</span>°
+
+            <!-- ── Hero: city + temp + icon ── -->
+            <div class="hero-section">
+                <div class="hero-left">
+                    <h2 id="cityName" class="city-name">--</h2>
+                    <p id="description" class="condition">--</p>
+                    <div class="temp-row">
+                        <span id="temperature" class="temp-display">--</span>
+                        <span class="temp-deg">°</span>
+                    </div>
+                    <div class="hero-sub-row">
+                        <span class="feels-badge">
+                            <i class="fas fa-thermometer-half"></i>
+                            Feels like <strong id="feelsLike">--</strong>°
+                        </span>
+                    </div>
                 </div>
-                <p class="high-low">Feels like <span id="feelsLike">--</span>°</p>
+                <div class="hero-right">
+                    <img id="weatherIcon" class="weather-icon" src="" alt="">
+                    <div class="hi-lo">
+                        <span class="hi-lo-item">
+                            <i class="fas fa-arrow-up"></i>
+                            <span id="tempHigh">--</span>°
+                        </span>
+                        <span class="hi-lo-sep">·</span>
+                        <span class="hi-lo-item lo">
+                            <i class="fas fa-arrow-down"></i>
+                            <span id="tempLow">--</span>°
+                        </span>
+                    </div>
+                </div>
             </div>
 
+            <!-- ── Metrics 2×2 ── -->
             <div class="metrics-grid">
                 <div class="metric-box">
-                    <i class="fas fa-droplet"></i>
+                    <div class="metric-icon-wrap blue">
+                        <i class="fas fa-droplet"></i>
+                    </div>
                     <span id="humidity" class="val">--%</span>
                     <span class="label">Humidity</span>
                 </div>
                 <div class="metric-box">
-                    <i class="fas fa-wind"></i>
+                    <div class="metric-icon-wrap teal">
+                        <i class="fas fa-wind"></i>
+                    </div>
                     <span id="windSpeed" class="val">-- km/h</span>
                     <span class="label">Wind</span>
                 </div>
                 <div class="metric-box">
-                    <i class="fas fa-eye"></i>
+                    <div class="metric-icon-wrap purple">
+                        <i class="fas fa-eye"></i>
+                    </div>
                     <span id="visibility" class="val">-- km</span>
                     <span class="label">Visibility</span>
                 </div>
                 <div class="metric-box">
-                    <i class="fas fa-gauge"></i>
+                    <div class="metric-icon-wrap amber">
+                        <i class="fas fa-gauge"></i>
+                    </div>
                     <span id="pressure" class="val">-- hPa</span>
                     <span class="label">Pressure</span>
                 </div>
             </div>
 
-            <div id="forecastSection" class="forecast-scroller">
-                <div id="forecastContainer" class="forecast-track"></div>
+            <!-- ── 5-day forecast ── -->
+            <div class="forecast-section">
+                <p class="forecast-label">5-Day Forecast</p>
+                <div id="forecastSection" class="forecast-scroller">
+                    <div id="forecastContainer" class="forecast-track"></div>
+                </div>
             </div>
+
         </article>
 
         <footer class="app-footer">

@@ -56,7 +56,8 @@ async function fetchWeather(queryString) {
 }
 
 function renderWeather(data) {
-    document.getElementById("cityName").textContent = data.name;
+    // City + country
+    document.getElementById("cityName").textContent = data.name + ", " + data.sys.country;
     document.getElementById("temperature").textContent = Math.round(data.main.temp);
     document.getElementById("feelsLike").textContent = Math.round(data.main.feels_like);
     document.getElementById("description").textContent = data.weather[0].description;
@@ -64,6 +65,15 @@ function renderWeather(data) {
     document.getElementById("windSpeed").textContent = (data.wind.speed * 3.6).toFixed(1) + " km/h";
     document.getElementById("visibility").textContent = (data.visibility / 1000).toFixed(1) + " km";
     document.getElementById("pressure").textContent = data.main.pressure + " hPa";
+
+    // High / low
+    document.getElementById("tempHigh").textContent = Math.round(data.main.temp_max);
+    document.getElementById("tempLow").textContent  = Math.round(data.main.temp_min);
+
+    // Weather icon
+    var iconEl = document.getElementById("weatherIcon");
+    iconEl.src = "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png";
+    iconEl.alt = data.weather[0].description;
 
     els.weatherCard.classList.remove("hidden");
 }
