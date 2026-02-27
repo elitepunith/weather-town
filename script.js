@@ -1,74 +1,65 @@
-/* ══════════════════════════════════════════
-   WEATHER TOWN — script.js
-══════════════════════════════════════════ */
+var cityInput   = document.getElementById("cityInput");
+var searchBtn   = document.getElementById("searchBtn");
+var locationBtn = document.getElementById("locationBtn");
+var results     = document.getElementById("results");
+var loader      = document.getElementById("loader");
+var errorBox    = document.getElementById("errorBox");
+var errorText   = document.getElementById("errorText");
+var page        = document.getElementById("page");
 
-var els = {
-    input:       document.getElementById("cityInput"),
-    searchBtn:   document.getElementById("searchBtn"),
-    locationBtn: document.getElementById("locationBtn"),
-    weatherCard: document.getElementById("weatherCard"),
-    loader:      document.getElementById("loader"),
-    errorMsg:    document.getElementById("errorMessage"),
-    errorText:   document.getElementById("errorText"),
-    wrapper:     document.getElementById("pageWrapper")
-};
-
-/* ── Event listeners ── */
-els.searchBtn.addEventListener("click", handleSearch);
-els.input.addEventListener("keydown", function(e) {
-    if (e.key === "Enter") handleSearch();
+searchBtn.addEventListener("click", onSearch);
+cityInput.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") onSearch();
 });
 
-els.locationBtn.addEventListener("click", function() {
+locationBtn.addEventListener("click", function() {
     if (!navigator.geolocation) {
-        showError("Your browser doesn't support geolocation.");
+        showError("Geolocation is not supported by your browser.");
         return;
     }
     navigator.geolocation.getCurrentPosition(
         function(pos) {
-            fetchWeather("lat=" + pos.coords.latitude + "&lon=" + pos.coords.longitude);
+            var q = "lat=" + pos.coords.latitude + "&lon=" + pos.coords.longitude;
+            fetchWeather(q);
         },
         function() {
-            showError("Couldn't get your location. Please allow access and try again.");
+            showError("Location access was denied. Please allow it and try again.");
         }
     );
 });
 
-function handleSearch() {
-    var city = els.input.value.trim();
-    if (!city) { els.input.focus(); return; }
+function onSearch() {
+    var city = cityInput.value.trim();
+    if (!city) {
+        cityInput.focus();
+        return;
+    }
     fetchWeather("city=" + encodeURIComponent(city));
 }
 
-/* ── Fetch ── */
 async function fetchWeather(query) {
     setLoading(true);
     try {
-        var res = await fetch("/api/weather?" + query);
-        if (!res.ok) {
-            var body = await res.json().catch(function() { return {}; });
-            throw new Error(body.error || "Something went wrong.");
-        }
+        var res  = await fetch("/api/weather?" + query);
         var data = await res.json();
-        renderWeather(data.weather);
+        if (!res.ok) {
+            throw new Error(data.error || "Something went wrong.");
+        }
+        renderCurrent(data.weather);
         renderForecast(data.forecast);
+        results.classList.remove("hidden");
+        page.classList.add("has-results");
         setLoading(false);
-
-        /* expand to dashboard layout */
-        els.wrapper.classList.add("has-results");
-        document.body.classList.add("results-active");
-
     } catch (err) {
-        showError(err.message || "Unable to load weather for that location.");
+        showError(err.message || "Could not load weather. Please try again.");
     }
 }
 
-/* ── Render current weather ── */
-function renderWeather(w) {
+function renderCurrent(w) {
     document.getElementById("cityName").textContent    = w.name + ", " + w.sys.country;
+    document.getElementById("description").textContent = w.weather[0].description;
     document.getElementById("temperature").textContent = Math.round(w.main.temp);
     document.getElementById("feelsLike").textContent   = Math.round(w.main.feels_like);
-    document.getElementById("description").textContent = w.weather[0].description;
     document.getElementById("tempHigh").textContent    = Math.round(w.main.temp_max);
     document.getElementById("tempLow").textContent     = Math.round(w.main.temp_min);
     document.getElementById("humidity").textContent    = w.main.humidity + "%";
@@ -79,53 +70,49 @@ function renderWeather(w) {
     var icon = document.getElementById("weatherIcon");
     icon.src = "https://openweathermap.org/img/wn/" + w.weather[0].icon + "@2x.png";
     icon.alt = w.weather[0].description;
-
-    els.weatherCard.classList.remove("hidden");
 }
 
-/* ── Render 5-day forecast ── */
 function renderForecast(data) {
     var container = document.getElementById("forecastContainer");
-    var entries = data.list.filter(function(item) {
+    var days = data.list.filter(function(item) {
         return item.dt_txt.includes("12:00:00");
     }).slice(0, 5);
 
-    if (!entries.length) {
+    if (!days.length) {
         container.innerHTML = '<p class="no-forecast">No forecast data available.</p>';
         return;
     }
 
-    container.innerHTML = entries.map(function(item) {
-        var day  = new Date(item.dt * 1000).toLocaleDateString("en-US", { weekday: "short" });
-        var temp = Math.round(item.main.temp);
-        var icon = item.weather[0].icon;
-        var desc = item.weather[0].description;
+    container.innerHTML = days.map(function(item) {
+        var label = new Date(item.dt * 1000).toLocaleDateString("en-US", { weekday: "short" });
+        var temp  = Math.round(item.main.temp);
+        var icon  = item.weather[0].icon;
+        var desc  = item.weather[0].description;
         return (
-            '<div class="forecast-item">' +
-                '<span class="day">' + day + '</span>' +
+            '<div class="fc-day">' +
+                '<span class="fc-label">' + label + '</span>' +
                 '<img src="https://openweathermap.org/img/wn/' + icon + '.png" alt="' + desc + '">' +
-                '<span class="temp">' + temp + '°</span>' +
+                '<span class="fc-temp">' + temp + '°</span>' +
             '</div>'
         );
     }).join("");
 }
 
-/* ── State helpers ── */
 function setLoading(on) {
-    els.errorMsg.classList.add("hidden");
+    errorBox.classList.add("hidden");
     if (on) {
-        els.loader.classList.remove("hidden");
-        els.weatherCard.classList.add("hidden");
+        loader.classList.remove("hidden");
+        results.classList.add("hidden");
+        page.classList.remove("has-results");
     } else {
-        els.loader.classList.add("hidden");
+        loader.classList.add("hidden");
     }
 }
 
 function showError(msg) {
-    setLoading(false);
-    els.weatherCard.classList.add("hidden");
-    els.wrapper.classList.remove("has-results");
-    document.body.classList.remove("results-active");
-    els.errorText.textContent = msg;
-    els.errorMsg.classList.remove("hidden");
+    loader.classList.add("hidden");
+    results.classList.add("hidden");
+    page.classList.remove("has-results");
+    errorText.textContent = msg;
+    errorBox.classList.remove("hidden");
 }
