@@ -20,149 +20,196 @@
         <div class="orb orb-4"></div>
     </div>
 
-    <!-- ===== HOME STATE ===== -->
+    <!-- ═══════════ HOME SCREEN ═══════════ -->
     <div class="home-screen" id="homeScreen">
+
         <header class="brand">
-            <span class="brand-icon">⛅</span>
-            <div class="brand-words">
+            <div class="brand-icon-wrap">
+                <span class="brand-emoji">⛅</span>
+            </div>
+            <div class="brand-text">
                 <h1 class="brand-name">Weather Town</h1>
                 <p class="brand-sub">Real-time weather, anywhere</p>
             </div>
         </header>
 
-        <div class="search-wrap" id="homeSearch">
-            <button class="locate-btn" id="locationBtn" aria-label="Use my location">
+        <div class="search-row">
+            <button class="locate-btn" id="locationBtn" aria-label="Use my location" title="Use my location">
                 <svg viewBox="0 0 22 22" fill="none">
                     <circle cx="11" cy="11" r="3.5" stroke="currentColor" stroke-width="1.8"/>
                     <path d="M11 2.5v2.2M11 17.3v2.2M2.5 11h2.2M17.3 11h2.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
                 </svg>
             </button>
-            <div class="search-box">
+            <div class="search-field">
                 <svg class="search-ico" viewBox="0 0 20 20" fill="none">
                     <circle cx="9" cy="9" r="5.5" stroke="currentColor" stroke-width="1.8"/>
                     <path d="M13.5 13.5l3.2 3.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
                 </svg>
                 <input id="cityInput" type="text" placeholder="Search a city…" autocomplete="off" spellcheck="false">
             </div>
-            <button class="go-btn" id="searchBtn">Search</button>
+            <button class="search-btn" id="searchBtn">Search</button>
         </div>
 
-        <div class="feedback" id="homeFeedback">
-            <div id="loader" class="loader hidden">
-                <span class="spin"></span>
+        <div class="home-status">
+            <div id="homeLoader" class="status-loader hidden">
+                <span class="spinner"></span>
                 <span>Fetching weather…</span>
             </div>
-            <div id="errorBox" class="error-box hidden">
+            <div id="homeError" class="status-error hidden">
                 <svg viewBox="0 0 20 20" fill="none">
                     <circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.6"/>
                     <path d="M10 6.5v3.5M10 12.5v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
                 </svg>
-                <span id="errorText">City not found.</span>
+                <span id="homeErrorText">City not found.</span>
             </div>
         </div>
+
     </div>
 
-    <!-- ===== RESULTS STATE ===== -->
+    <!-- ═══════════ RESULTS SCREEN ═══════════ -->
     <div class="results-screen hidden" id="resultsScreen">
 
-        <div class="results-topbar">
-            <div class="topbar-brand">
-                <span>⛅</span>
+        <nav class="topbar">
+            <div class="topbar-logo">
+                <span class="topbar-emoji">⛅</span>
                 <span class="topbar-name">Weather Town</span>
             </div>
-            <div class="search-wrap compact" id="resultsSearch">
+            <div class="search-row compact">
                 <button class="locate-btn sm" id="locationBtnR" aria-label="Use my location">
                     <svg viewBox="0 0 22 22" fill="none">
                         <circle cx="11" cy="11" r="3.5" stroke="currentColor" stroke-width="1.8"/>
                         <path d="M11 2.5v2.2M11 17.3v2.2M2.5 11h2.2M17.3 11h2.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
                     </svg>
                 </button>
-                <div class="search-box sm">
+                <div class="search-field sm">
                     <svg class="search-ico" viewBox="0 0 20 20" fill="none">
                         <circle cx="9" cy="9" r="5.5" stroke="currentColor" stroke-width="1.8"/>
                         <path d="M13.5 13.5l3.2 3.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
                     </svg>
                     <input id="cityInputR" type="text" placeholder="Search another city…" autocomplete="off" spellcheck="false">
                 </div>
-                <button class="go-btn sm" id="searchBtnR">Search</button>
+                <button class="search-btn sm" id="searchBtnR">Search</button>
             </div>
+        </nav>
+
+        <div id="resultsError" class="topbar-error hidden">
+            <svg viewBox="0 0 20 20" fill="none">
+                <circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M10 6.5v3.5M10 12.5v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <span id="resultsErrorText">City not found.</span>
         </div>
 
-        <div class="results-error hidden" id="resultsError">
-            <div class="error-box">
-                <svg viewBox="0 0 20 20" fill="none">
-                    <circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.6"/>
-                    <path d="M10 6.5v3.5M10 12.5v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                </svg>
-                <span id="resultsErrorText">City not found.</span>
-            </div>
-        </div>
+        <main class="dashboard">
 
-        <main class="dashboard" id="dashboard">
-
-            <!-- LEFT COL: hero -->
-            <div class="col-left">
+            <!-- LEFT: hero -->
+            <div class="dash-left">
                 <div class="hero-card glass-card">
                     <div class="hero-glow"></div>
-                    <div class="hero-top">
-                        <div>
+
+                    <div class="hero-head">
+                        <div class="hero-location">
                             <h2 id="cityName" class="city-name">—</h2>
+                            <p id="localTime" class="local-time">—</p>
                             <p id="description" class="sky-desc">—</p>
                         </div>
                         <img id="weatherIcon" class="wx-icon" src="" alt="">
                     </div>
+
                     <div class="big-temp">
-                        <span id="temperature">—</span><sup>°</sup>
+                        <span id="temperature">—</span><sup>°C</sup>
                     </div>
-                    <div class="hero-chips">
-                        <span class="chip">
-                            <svg viewBox="0 0 14 14" fill="none"><path d="M7 1.5a1.75 1.75 0 0 1 1.75 1.75v4.7a3 3 0 1 1-3.5 0V3.25A1.75 1.75 0 0 1 7 1.5z" stroke="currentColor" stroke-width="1.3"/></svg>
+
+                    <div class="hero-pills">
+                        <span class="pill">
+                            <svg viewBox="0 0 14 14" fill="none">
+                                <path d="M7 1.5a1.75 1.75 0 0 1 1.75 1.75v4.7a3 3 0 1 1-3.5 0V3.25A1.75 1.75 0 0 1 7 1.5z" stroke="currentColor" stroke-width="1.3"/>
+                            </svg>
                             Feels <strong id="feelsLike">—</strong>°
                         </span>
-                        <span class="chip">
-                            <svg viewBox="0 0 12 12" fill="none"><path d="M6 9.5V2.5M3 5.5l3-3 3 3" stroke="#fb923c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span class="pill">
+                            <svg viewBox="0 0 12 12" fill="none">
+                                <path d="M6 9.5V2.5M3 5.5l3-3 3 3" stroke="#fb923c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
                             <strong id="tempHigh">—</strong>°
-                            <span class="chip-sep">·</span>
-                            <svg viewBox="0 0 12 12" fill="none"><path d="M6 2.5v7M3 6.5l3 3 3-3" stroke="#60a5fa" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <span class="pill-dot">·</span>
+                            <svg viewBox="0 0 12 12" fill="none">
+                                <path d="M6 2.5v7M3 6.5l3 3 3-3" stroke="#60a5fa" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
                             <strong id="tempLow">—</strong>°
                         </span>
                     </div>
                 </div>
             </div>
 
-            <!-- RIGHT COL: stats + forecast -->
-            <div class="col-right">
+            <!-- RIGHT: stats + forecast -->
+            <div class="dash-right">
 
                 <div class="stats-grid">
                     <div class="stat-card glass-card">
-                        <div class="stat-ico blue"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a1 1 0 0 0-1 1v7.27a3 3 0 1 0 2 0V3a1 1 0 0 0-1-1z"/></svg></div>
-                        <span class="stat-num" id="humidity">—</span>
-                        <span class="stat-tag">Humidity</span>
+                        <div class="stat-icon blue">
+                            <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a1 1 0 0 0-1 1v7.27a3 3 0 1 0 2 0V3a1 1 0 0 0-1-1z"/></svg>
+                        </div>
+                        <span class="stat-val" id="humidity">—</span>
+                        <span class="stat-label">Humidity</span>
                     </div>
                     <div class="stat-card glass-card">
-                        <div class="stat-ico cyan"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M3 7h9a2 2 0 1 0 0-4H3M3 10.5h11a2 2 0 1 1 0 4H3"/></svg></div>
-                        <span class="stat-num" id="windSpeed">—</span>
-                        <span class="stat-tag">Wind</span>
+                        <div class="stat-icon cyan">
+                            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+                                <path d="M3 7h9a2 2 0 1 0 0-4H3M3 10.5h11a2 2 0 1 1 0 4H3"/>
+                            </svg>
+                        </div>
+                        <span class="stat-val" id="windSpeed">—</span>
+                        <span class="stat-label" id="windDir">Wind</span>
                     </div>
                     <div class="stat-card glass-card">
-                        <div class="stat-ico violet"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><ellipse cx="10" cy="10" rx="9" ry="5.5"/><circle cx="10" cy="10" r="2.5"/></svg></div>
-                        <span class="stat-num" id="visibility">—</span>
-                        <span class="stat-tag">Visibility</span>
+                        <div class="stat-icon violet">
+                            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+                                <ellipse cx="10" cy="10" rx="9" ry="5.5"/><circle cx="10" cy="10" r="2.5"/>
+                            </svg>
+                        </div>
+                        <span class="stat-val" id="visibility">—</span>
+                        <span class="stat-label">Visibility</span>
                     </div>
                     <div class="stat-card glass-card">
-                        <div class="stat-ico amber"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="10" cy="10" r="7.5"/><path d="M10 6v4l2.5 2"/></svg></div>
-                        <span class="stat-num" id="pressure">—</span>
-                        <span class="stat-tag">Pressure</span>
+                        <div class="stat-icon amber">
+                            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+                                <circle cx="10" cy="10" r="7.5"/><path d="M10 6v4l2.5 2"/>
+                            </svg>
+                        </div>
+                        <span class="stat-val" id="pressure">—</span>
+                        <span class="stat-label">Pressure</span>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon rose">
+                            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+                                <circle cx="10" cy="6" r="3"/><path d="M5.5 17c0-2.485 2.015-4.5 4.5-4.5s4.5 2.015 4.5 4.5"/>
+                                <path d="M10 3V1M10 11v2M3 6H1M5.2 3.2L3.8 1.8"/>
+                            </svg>
+                        </div>
+                        <span class="stat-val" id="sunrise">—</span>
+                        <span class="stat-label">Sunrise</span>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon indigo">
+                            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+                                <path d="M17.5 13A7.5 7.5 0 0 1 6.5 2.5 7.5 7.5 0 1 0 17.5 13z"/>
+                            </svg>
+                        </div>
+                        <span class="stat-val" id="sunset">—</span>
+                        <span class="stat-label">Sunset</span>
                     </div>
                 </div>
 
                 <div class="forecast-card glass-card">
-                    <p class="forecast-label">5-Day Forecast</p>
+                    <div class="forecast-header">
+                        <p class="forecast-label">5-Day Forecast</p>
+                        <p class="forecast-updated" id="lastUpdated">—</p>
+                    </div>
                     <div class="forecast-row" id="forecastContainer"></div>
                 </div>
 
             </div>
-
         </main>
     </div>
 
